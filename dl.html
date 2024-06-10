@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Download File on Button Click</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+  $('#downloadBtn').click(function() {
+    $.ajax({
+      type: "GET",
+      url: "LearnRust30DayPlan.pdf",
+      headers: {
+        'Content-Disposition': 'attachment'
+      },
+      xhrFields: {
+        responseType: 'blob'
+      },
+      success: function(blob) {
+        var windowUrl = window.URL || window.webkitURL;
+        var url = windowUrl.createObjectURL(blob);
+        var anchor = document.createElement('a');
+        anchor.href = url;
+        anchor.download = 'LearnRust30DayPlan.pdf';
+        document.body.appendChild(anchor); // Append to body
+        anchor.click();
+        document.body.removeChild(anchor); // Remove from body
+        windowUrl.revokeObjectURL(url);
+      },
+      error: function(error) {
+        console.log(error);
+      }
+    });
+  });
+});
+</script>
+</head>
+<body>
+<h1>File Download</h1>
+<p>Click the button below to download the file.</p>
+<button id="downloadBtn">Download File</button>
+</body>
+</html>
